@@ -44,6 +44,6 @@ export const SectionHeading=({gray,blue}:{gray:string,blue:string})=>{
    tracking-tight">
     <GrayTitle>{gray}</GrayTitle>
     <br />
-    <BlueTitle>{gray}</BlueTitle>
+    <BlueTitle>{blue}</BlueTitle>
    </h2>
 }
