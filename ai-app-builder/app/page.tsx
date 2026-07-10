@@ -1,15 +1,19 @@
 "use client";
 import { HoleBackground } from "@/components/animate-ui/components/backgrounds/hole";
 import { Badge } from "@/components/ui/badge";
-import { BlueTitle, SectionHeading, SectionLabel } from "@/components/reuseable";
+import {
+  BlueTitle,
+  SectionHeading,
+  SectionLabel,
+} from "@/components/reuseable";
 import { GrayTitle } from "@/components/reuseable";
 import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
-import { SignInButton, useAuth } from "@clerk/nextjs";
+import { PricingTable, SignInButton, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { FEATURES, PLACEHOLDERS, SUGGESTIONS } from "@/lib/data";
+import { FEATURES, PLACEHOLDERS, STEPS, SUGGESTIONS } from "@/lib/data";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
 
 export default function Home() {
   const { isSignedIn } = useAuth();
@@ -54,9 +58,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] selection:bg-white/20">
-      <section
-        className="relative flex flex-col items-center overflow-hidden px-4 pb-24 pt-40 text-center"
-      >
+      <section className="relative flex flex-col items-center overflow-hidden px-4 pb-24 pt-40 text-center">
         <HoleBackground
           strokeColor="rgba(255,255,255,0.05)"
           className="absolute inset-0 h-full w-full"
@@ -149,7 +151,9 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <p className="mt-10 text-xs text-white/70">No credit card required . 10 free generations on sign up</p>
+        <p className="mt-10 text-xs text-white/70">
+          No credit card required . 10 free generations on sign up
+        </p>
       </section>
       {/* ///browser section mockup */}
       <section className="px-4 pb-28">
@@ -189,11 +193,14 @@ export default function Home() {
 
                 <div className="flex-1 space-y-4 px-4 py-5">
                   <div className="ml-auto max-w-[82%] rounded-2xl rounded-br-md bg-white/10 px-4 py-3 text-sm leading-relaxed text-white/80">
-                    Make the app feel like a sleek workspace with a browser mockup, dark theme, and a split chat/code layout.
+                    Make the app feel like a sleek workspace with a browser
+                    mockup, dark theme, and a split chat/code layout.
                   </div>
 
                   <div className="max-w-[86%] rounded-2xl rounded-bl-md border border-white/8 bg-white/[0.04] px-4 py-3 text-sm leading-relaxed text-white/72">
-                    I’ll anchor the composition with a fake browser chrome, then divide the body into a conversational panel and a preview panel.
+                    I’ll anchor the composition with a fake browser chrome, then
+                    divide the body into a conversational panel and a preview
+                    panel.
                   </div>
 
                   <div className="max-w-[72%] rounded-2xl rounded-bl-md border border-white/8 bg-white/[0.04] px-4 py-3">
@@ -290,27 +297,130 @@ export default function Home() {
       {/* //service section  */}
       <section className="px-4 py-24">
         <div className="mx-auto mb-14 max-w-5xl text-center">
-      <SectionLabel> Everything you need</SectionLabel>
-      <SectionHeading gray="From prompt" blue="to production."/> 
-      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-px overflow-hidden
-      rounded-2xl border border-white/6 bg-white/6 sm:grid-cols-2 lg:grid-cols-3">
-        {FEATURES.map(({icon:Icon,label,desc})=>{
-          return (
-            <div key={label} className="bg-[#0a0a0a] p-7 hover:bg-[#0f0f0f]">
-              <div className="mb-4 flex h-9 items-center justify-center rounded-lg
+          <SectionLabel> Everything you need</SectionLabel>
+          <SectionHeading gray="From prompt" blue="to production." />
+          <div
+            className="mx-auto grid max-w-5xl grid-cols-1 gap-px overflow-hidden
+      rounded-2xl border border-white/6 bg-white/6 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {FEATURES.map(({ icon: Icon, label, desc }) => {
+              return (
+                <div
+                  key={label}
+                  className="bg-[#0a0a0a] p-7 hover:bg-[#0f0f0f]"
+                >
+                  <div
+                    className="mb-4 flex h-9 items-center justify-center rounded-lg
               border border-white/8 bg-white/4 group-hover:border-white/15
-              group-hover:bg-white/8">
-                <Icon className="h-4 w-4 text-white/60 group-hover:text-blue-400/70"/>
-              </div>
-              <p className="mb-2 text-sm font-semibold">{label}</p>
-              <p className="text-sm leading-relaxed text-white/40">{desc}</p>
-            </div>
-          );
-        })}
-      </div>
+              group-hover:bg-white/8"
+                  >
+                    <Icon className="h-4 w-4 text-white/60 group-hover:text-blue-400/70" />
+                  </div>
+                  <p className="mb-2 text-sm font-semibold">{label}</p>
+                  <p className="text-sm leading-relaxed text-white/40">
+                    {desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
         </div>
-
       </section>
+      {/* new section */}
+      <section className="px-4 py-24">
+        <div className="mx-auto mb-14 max-w-5xl text-center">
+          <SectionLabel> How it work</SectionLabel>
+          <SectionHeading gray="Four steps" blue="to a working app." />
+          <div className="mx-auto max-w-3xl">
+            {STEPS.map((step, i) => (
+              <div key={step.number} className="flex gap-6">
+                <div className="flex flex-col items-center js">
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10
+               bg-white/4"
+                  >
+                    <span className="font-nano text-xs font-semibold text-white/50">
+                      {step.number}
+                    </span>
+                  </div>
+                  {i < STEPS.length - 1 && (
+                    <div className="mt-2 h-full w-px bg-white/60" />
+                  )}
+                </div>
+                <div className="pb-10 pt-1.5">
+                  <p className="mb-1.5 flex justify-start text-xs font-semibold sm:text-base">
+                    {step.label}
+                  </p>
+                  <p className="text-sm leading-relaxed text-white/40">
+                    {step.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* another section */}
+      <section className="px-4 py-24">
+        <div className="mx-auto mb-14 max-w-5xl text-center">
+          <SectionLabel> Simple Pricing</SectionLabel>
+          <SectionHeading gray="Start free" blue="scale when ready." />
+          <p className="mx-auto mt-4 mb-6 max-w-sm text-sm text-white/35">
+            No credit card required. Upgrade or downgrade anytime.
+          </p>
+
+          <div className="mx-auto max-w-5xl">
+            <PricingTable
+              checkoutProps={{
+                appearance: {
+                  elements: {
+                    drawerRoot: {
+                      zIndex: 200,
+                    },
+                  },
+                },
+              }}
+            />
+          </div>
+        </div>
+      </section>
+      <section
+        className="relative mx-auto mb-32 max-w-5xl overflow-hidden
+      rounded-2xl border border-white/8 px-10 py-24 text-center"
+      >
+        <HoleBackground
+          strokeColor="rgba(255,255,255,0.05)"
+          className="absolute inset-0 h-full w-full"
+          style={{
+            maskImage:
+              "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.5) 50%, transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.5) 50%, transparent 100%)",
+          }}
+        />
+        <SectionHeading gray="Start building" blue="for free." />
+        <p className="mb-8 text-sm leading-relaxed O text-white/40">
+          Get 10 free generations on sign up. No credit card required.
+          <br />
+          Upgrade when you&apos;re ready.
+        </p>
+        <SignInButton mode="modal">
+          <Button
+            size="lg"
+            className="relative text-black rounded-full h-11 bg-white px-8"
+          >
+            Get strted free
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </SignInButton>
+      </section>
+      <footer
+        className="relative z-10 border-t border-white/7 py-12 mx-auto px-6
+        flex flex-wrap items-center justify-center text-stone-400"
+      >
+        Made with 💖 by Dev
+      </footer>
     </main>
   );
 }
