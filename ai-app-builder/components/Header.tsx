@@ -3,7 +3,21 @@ import Image from "next/image";
 import { ArrowRight, Zap } from "lucide-react";
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
-const Header = () => {
+import PricingModel from "./PricingModel";
+import { checkUser } from "@/lib/checkUser";
+import { PLANS } from "@/lib/constant";
+import { Plan } from "@/types/plans";
+
+const Header = async () => {
+  const user = await checkUser();
+
+  // console.log(user.plan);
+  if (user) {
+    console.log(PLANS[user.plan as Plan]);
+  }
+
+  // console.log(PLANS[user.plan as Plan]);
+
   return (
     <header
       className=" w-full fixed top-0 left-0 z-50 h-16 borde-b border-white/6 bg-white/7
@@ -28,9 +42,15 @@ const Header = () => {
             >
               Projects
             </Link>
-            <span className="inline-flex h-8 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 text-xs text-white/70">
-              <Zap className="h-3 w-3 fill-white/70" />3 / 40 credits
-            </span>
+            {user && (
+              <PricingModel>
+                <span className="inline-flex h-8 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 text-xs text-white/70">
+                  <Zap className="h-3 w-3 fill-white/70" />
+                  {user.credits}/{PLANS[user?.plan as Plan]?.credits}credits
+                  credits
+                </span>
+              </PricingModel>
+            )}
             <UserButton />
           </Show>
 
@@ -50,7 +70,7 @@ const Header = () => {
                 className="bg-white text-black h-8 rounded-full font-semibold active:scale-95 px-4 pt-1 pb-1.5"
               >
                 Get Started
-                <ArrowRight className="h-3 w-3 opacity-60"/>
+                <ArrowRight className="h-3 w-3 opacity-60" />
               </Button>
             </SignUpButton>
           </Show>
