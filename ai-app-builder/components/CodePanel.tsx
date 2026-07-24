@@ -14,6 +14,7 @@ import {
 } from "@codesandbox/sandpack-react";
 import { dracula } from "@codesandbox/sandpack-themes";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
+
 import { Code2, Eye } from "lucide-react";
 const PLACEHOLDER_FILES = {
   "/App.js": {
@@ -119,21 +120,54 @@ function SandpackInner({
           variant="line"
           className="h-auto gap-0 rounded-none bg-transparent p-0"
         >
-          <TabsTrigger className="border-b-2 pt-2" value="Code">
+          <TabsTrigger className="border-b-2 pt-2" value="code">
             <Code2 className="h-3.5 w-3.5 " />
             Code
           </TabsTrigger>
-          <TabsTrigger className="border-b-2 pt-2" value="Preview">
+          <TabsTrigger className="border-b-2 pt-2" value="preview">
             <Eye className="h-3.5 w-3.5" />
             Preview
           </TabsTrigger>
         </TabsList>
+        {/* {TODO: Impove  with AI button (Pro/Starter only, principle for free)} */}
+        {/* TODO :Download ZIP button */}
       </div>
+      <div className="relative flex-1 overflow-hidden">
+        {/* TODO Loading overlay */}
+        <SandpackLayout
+          style={{
+            height: "100vh",
+            border: "none",
+            borderRadius: 0,
+            background: "transparent",
+          }}
+        >
+          <TabsContent value="preview" className="mt-0 h-full w-full">
+            <SandpackPreview
+              style={{ height: "89%" }}
+              showOpenInCodeSandbox={false}
+            ></SandpackPreview>
+          </TabsContent>
+          <TabsContent value="code" className="mt-0 h-full w-full">
+            <SandpackFileExplorer
+              style={{
+                height: "90%",
+                width: "180px",
+                borderRight: "0.5px solid rgba(255,255,255,0.08)",
+              }}
+            />
+            
+            <SandpackCodeEditor style={{height:"90%", flex:1}}
+              showTabs
+              showLineNumbers
+              showInlineErrors
+              closableTabs
+              readOnly>
 
-      <TabsContent value="account">
-        Make changes to your account here.
-      </TabsContent>
-      <TabsContent value="password">Change your password here.</TabsContent>
+              </SandpackCodeEditor>
+          </TabsContent>
+        </SandpackLayout>
+      </div>
     </Tabs>
   );
 }
